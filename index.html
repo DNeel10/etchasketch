@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etch-A-Sketch</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="eas.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div id="title">
+            <h1>Etch-a-Sketch!</h1>
+        </div>
+        <div class="gridOptionsContainer">
+            <div class="optionsContainer">
+                <div class="slidecontainer">
+                    <p>Grid Size</p>
+                    <input type="range" min="1" max="100" value="64" class="slider" id="myRange">
+                    <p> Size: <span id="sizeOutput"></span></p>
+                </div>
+                <div class="option"></div>
+                <div class="option"></div>
+                <div class="option"></div>
+            </div>
+            <div class="gridContainer"></div>
+        </div>
+
+    </div>
+    
+</body>
+</html>
