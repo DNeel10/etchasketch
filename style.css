@@ -17,7 +17,7 @@ body {
     flex-direction: column;
     justify-content: space-around;
     gap: 16px;
-    border-radius: 10px;
+    border-radius: 24px;
 }
 
 .title {
@@ -42,7 +42,7 @@ h1 {
     justify-content: space-evenly;
 }
 
-.gridContainer {
+#gridContainer {
     background-color: rgb(236, 231, 231);
     width:  640px;
     height: 640px;
@@ -63,8 +63,8 @@ h1 {
 
 .cell {
     box-sizing: border-box;
-    width: 6.4px;
-    height: 6.4px;
+    width: 10px;
+    height: 10px;
     display:flex;
     border: .5px solid lightgrey;
 }
