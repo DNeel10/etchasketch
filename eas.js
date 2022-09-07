@@ -4,6 +4,7 @@ const rows = document.querySelectorAll(".row");
 let gridSize = 64;
 const cell = document.querySelector(".cell");
 
+
 // make grid by nesting for loops to get a number of rows, and within each row, creating the same number of cells
 function makeGridInitial(size){
     for (let i=0; i<size; i++){
@@ -26,11 +27,10 @@ const cells = document.querySelectorAll('.cell');
 cells.forEach((cell) => {
     cell.addEventListener('mouseover',() => {
         cell.style.backgroundColor='black';
-        console.log('darken');
     });
 });
 
-function makeGridNew(size){
+function makeGridNew(size = 64){
     for (let i=0; i<size; i++){
         let row = document.createElement("div");
         row.className = "row";
@@ -49,34 +49,33 @@ function makeGridNew(size){
 
 let slider = document.getElementById("myRange");
 let output = document.getElementById("sizeOutput");
-output.innerHTML = `${slider.value} x ${slider.value}`;
+output.textContent = `${slider.value} x ${slider.value}`;
 
 // CREATE NEW GRID USING THE SIZE FROM THE INPUT SLIDER
 slider.onmouseup = function() {
-    let gridSize = this.value;
-
-    output.innerHTML=`${this.value} x ${this.value}`;
+    output.innerHTML=`${slider.value} x ${slider.value}`;
     removeGrid();
-    makeGridNew(this.value);
+    makeGridNew(slider.value);
 
+    // this allows the reset button to accpet slider.value (why is the slider.value logging every number that the slider has landed on in sequence)
+    resetGrid(slider.value);
+
+    //adding event listeners to th enew grid
     const cells = document.querySelectorAll('.cell');
 
     cells.forEach((cell) => {
         cell.addEventListener('mouseover',() => {
             cell.style.backgroundColor='black';
-            console.log('darken');
         });
     });
-    return gridSize;
 }
+
 // update slider amount as you move it
 slider.oninput = function() {
     let gridSize = this.value;
     output.innerHTML=`${this.value} x ${this.value}`;
-    console.log(`slider-moved:${this.value}`);
 }
 
-console.log(`gridSize: ${gridSize}`);
 
 // Remove existing grid on slider adjustment
 
@@ -85,4 +84,31 @@ function removeGrid(){
     while (element.firstChild){
         element.removeChild(element.firstChild);
     }
+}
+
+// BUTTONS:
+const reset = document.getElementById("reset");
+
+// reset
+function resetGrid(sliderValue){
+    reset.addEventListener('click', () =>{
+    removeGrid();
+    makeGridNew(sliderValue);
+    defaultPen();
+    console.log(sliderValue);
+
+    })
+}
+
+resetGrid();
+
+
+function defaultPen(){
+    const cells = document.querySelectorAll('.cell');
+
+    cells.forEach((cell) => {
+        cell.addEventListener('mouseover',() => {
+            cell.style.backgroundColor='black';
+        });
+    });
 }
