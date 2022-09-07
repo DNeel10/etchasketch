@@ -90,14 +90,27 @@ const reset = document.getElementById("reset");
 
 // reset
 function resetGrid(sliderValue){
-    reset.addEventListener('click', () =>{
-        removeGrid();
-        makeGridNew(sliderValue);
-        defaultPen();
-        console.log(sliderValue);
-    })
+    removeGrid();
+    makeGridNew(sliderValue);
+    defaultPen();
 }
 
+// color picker
+function pickColor(r, g, b) {
+
+}
+
+// rainbow random color
+function getRandomColor(r, g, b) {
+
+}
+
+// gradient pen
+function selectGradient(){
+
+}
+
+reset.addEventListener('click', () => {resetGrid(slider.value)});
 
 makeGridInitial(64);
 defaultPen();
