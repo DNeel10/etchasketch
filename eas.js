@@ -1,7 +1,6 @@
 const gridContainer = document.querySelector("#gridContainer");
 const container = document.querySelector(".container");
 const rows = document.querySelectorAll(".row");
-let gridSize = 64;
 const cell = document.querySelector(".cell");
 
 
@@ -19,17 +18,7 @@ function makeGridInitial(size){
     }
 }
 
-makeGridInitial(64);
-
-// mouseover listener to darken each cell as the mouse passes over it
-const cells = document.querySelectorAll('.cell');
-
-cells.forEach((cell) => {
-    cell.addEventListener('mouseover',() => {
-        cell.style.backgroundColor='black';
-    });
-});
-
+// make a new grid that adjusts the size of the pixels based upon the size passed in from the slider
 function makeGridNew(size = 64){
     for (let i=0; i<size; i++){
         let row = document.createElement("div");
@@ -45,6 +34,17 @@ function makeGridNew(size = 64){
     }
 }
 
+// set up the default black pen to color the cells of the grid when hovered
+function defaultPen(){
+    const cells = document.querySelectorAll('.cell');
+
+    cells.forEach((cell) => {
+        cell.addEventListener('mouseover',() => {
+            cell.style.backgroundColor='black';
+        });
+    });
+}
+
 // SLIDER
 
 let slider = document.getElementById("myRange");
@@ -57,10 +57,10 @@ slider.onmouseup = function() {
     removeGrid();
     makeGridNew(slider.value);
 
-    // this allows the reset button to accpet slider.value (why is the slider.value logging every number that the slider has landed on in sequence)
+    // this allows the reset button to accept slider.value (why is the slider.value logging every number that the slider has landed on in sequence)
     resetGrid(slider.value);
 
-    //adding event listeners to th enew grid
+    //adding event listeners to the new grid
     const cells = document.querySelectorAll('.cell');
 
     cells.forEach((cell) => {
@@ -70,10 +70,9 @@ slider.onmouseup = function() {
     });
 }
 
-// update slider amount as you move it
+// update slider display as you move it
 slider.oninput = function() {
-    let gridSize = this.value;
-    output.innerHTML=`${this.value} x ${this.value}`;
+    output.innerHTML=`${slider.value} x ${slider.value}`;
 }
 
 
@@ -92,23 +91,16 @@ const reset = document.getElementById("reset");
 // reset
 function resetGrid(sliderValue){
     reset.addEventListener('click', () =>{
-    removeGrid();
-    makeGridNew(sliderValue);
-    defaultPen();
-    console.log(sliderValue);
-
+        removeGrid();
+        makeGridNew(sliderValue);
+        defaultPen();
+        console.log(sliderValue);
     })
 }
 
+
+makeGridInitial(64);
+defaultPen();
 resetGrid();
 
 
-function defaultPen(){
-    const cells = document.querySelectorAll('.cell');
-
-    cells.forEach((cell) => {
-        cell.addEventListener('mouseover',() => {
-            cell.style.backgroundColor='black';
-        });
-    });
-}
