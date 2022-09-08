@@ -3,6 +3,9 @@ const container = document.querySelector(".container");
 const rows = document.querySelectorAll(".row");
 const cell = document.querySelector(".cell");
 let rgb = ''
+let defaultPenToggle = true;
+let gradientPenToggle = false;
+let rainbowPenToggle = false;
 
 
 // make grid by nesting for loops to get a number of rows, and within each row, creating the same number of cells
@@ -35,6 +38,7 @@ function makeGridNew(size = 64){
     }
 }
 
+
 // set up the default black pen to color the cells of the grid when hovered
 function defaultPen(){
     const cells = document.querySelectorAll('.cell');
@@ -55,8 +59,7 @@ output.textContent = `${slider.value} x ${slider.value}`;
 // CREATE NEW GRID USING THE SIZE FROM THE INPUT SLIDER
 slider.onmouseup = function() {
     output.innerHTML=`${slider.value} x ${slider.value}`;
-    resetGridWithout(slider.value);
-    defaultPen();
+    resetGrid(slider.value);
 }
 
 // update slider display as you move it
@@ -75,6 +78,7 @@ function removeGrid(){
 
 // BUTTONS:
 // set button variables
+const defaultColor = document.getElementById("default");
 const reset = document.getElementById("reset");
 const rainbow = document.getElementById("rainbow");
 const gradient = document.getElementById("gradient");
@@ -84,27 +88,33 @@ const colorSelect = document.getElementById("colorSelect")
 function resetGrid(sliderValue){
     removeGrid();
     makeGridNew(sliderValue);
-    defaultPen();
+    if (defaultPenToggle === false && gradientPenToggle === false && rainbowPenToggle === true) {
+        rainbowPen();
+    } else if (defaultPenToggle === false && gradientPenToggle === true && rainbowPenToggle === false){
+        gradientPen();
+    } else {
+        defaultPen();
+    }
 }
 
 reset.addEventListener('click', () => {resetGrid(slider.value)});
 
-// reset without default pen included
-function resetGridWithout (sliderValue){
-    removeGrid();
-    makeGridNew(sliderValue);
-}
+// Default to black
+
+defaultColor.addEventListener('click', () => {
+    rainbowPenToggle = false, defaultPenToggle = true, gradientPenToggle = false;
+    resetGrid(slider.value)});
+
 
 // Color Selector - To be implemented
 
-/*function pickColor(r, g, b) {
-    console.log("Pick a Color");
-}
-colorSelect.addEventListener('click', () => {pickColor()});
-*/
+    /*function pickColor(r, g, b) {
+        console.log("Pick a Color");
+    }
+    colorSelect.addEventListener('click', () => {pickColor()});
+    */
 
-// rainbow random color
-
+// RANDOM COLOR PEN
 function getRandomColor() {
     r = getRandomIntInclusive(0, 255);
     g = getRandomIntInclusive(0, 255);
@@ -119,7 +129,7 @@ function getRandomIntInclusive(min, max){
     return Math.floor(Math.random() * (max-min+1) + min);
 }
 
-function randomPen() {
+function rainbowPen() {
     const cells = document.querySelectorAll('.cell');
 
     cells.forEach((cell) => {
@@ -131,16 +141,37 @@ function randomPen() {
 }
 
 rainbow.addEventListener('click', () => {
-    resetGridWithout(slider.value);
-    randomPen();
+    //resetGridWithout(slider.value);
+    rainbowPenToggle = true, defaultPenToggle = false, gradientPenToggle = false;
+    resetGrid(slider.value);
+    rainbowPen();
+    
 });
 
-// gradient pen
-function selectGradient(){
-    console.log("10% each pass");
+// GRADIENT PEN
+
+function gradientPen(rgbColor){
+    const cells = document.querySelectorAll('.cell');
+
+    cells.forEach((cell) => {
+        cell.addEventListener('mouseover', (e) => {
+            e.target.style.backgroundColor='black';
+            if (parseFloat(e.target.style.opacity)) {
+                e.target.style.opacity = parseFloat(e.target.style.opacity) + 0.1;
+            } else {
+                e.target.style.opacity = 0.1;
+            }
+        });
+    });
 }
 
-gradient.addEventListener('click', () => {selectGradient()});
+gradient.addEventListener('click', () => {
+    rainbowPenToggle = false, defaultPenToggle = false, gradientPenToggle = true;
+    resetGrid(slider.value);
+    gradientPen();
+
+});
+
 
 // call initial functions to set up page
 makeGridInitial(64);
